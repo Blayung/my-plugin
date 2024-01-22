@@ -1,0 +1,26 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    flatDir {
+        dirs "canyon-api"
+    }
+}
+
+dependencies {
+    compileOnly "com.canyonmodded:canyon-api:1.7.3"
+}
+
+archivesBaseName = "MyPlugin"
+
+def javaVersion = JavaVersion.VERSION_1_8
+
+java {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+jar {
+	from("LICENSE")
+}

@@ -1,0 +1,19 @@
+name: MyPlugin
+version: 1.0.0
+description: Doing various things on the server.
+author: Blay
+
+main: com.blay.myplugin.MyPlugin
+commands:
+  blocklog:
+    aliases: [blocklogger, inspect]
+    description: Inspect the block logs.
+  players:
+    aliases: [list, kto]
+    description: Check who's currently online.
+  myplugin-reload:
+    aliases: reload-myplugin
+    description: Reload the configuration of MyPlugin.
+  info:
+    aliases: rules
+    description: Get some information about the server.

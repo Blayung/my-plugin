@@ -1,0 +1,15 @@
+###############################
+# MyPlugin configuration file #
+###############################
+
+## INFO LINES
+infoLines: [] # An array of lines to be displayed on /info or /rules. Can be left empty.
+
+## ON JOIN MESSAGES
+# A list of messages to be sent to a player when he joins. The plugin will choose one message at random. All occurrences of '%p' will
+# be replaced with the player nick, and if you want to write '%p' literally, you can use '%%p' instead. Can be left empty.
+onJoinMessages: []
+
+## BTW MESSAGES
+btwMessages: [] # A list of messages to be broadcast to every player online periodically. The plugin will choose one message at random. Can be left empty to disable.
+btwMessagesInterval: 0 # How often should we send the btw messages? In game ticks (20 ticks = 1 second). Can be set to a value below one to disable.
