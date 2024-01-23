@@ -30,9 +30,12 @@ I do not know how does my plugin behave when you do `/reload`, but you can safel
 ### The info command and hello/btw messages
 Intuitive concepts, already well-documented within the `plugins/MyPlugin/config.yml` file.
 
-## Building the plugin (assuming you're on linux)
+## Building the plugin (assuming you're on linux, you can just copy and paste the commands if you've already done point 0)
 0. Make sure you have jdk 8, maven and git installed. If not, check these links out: [https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/downloads/#java8), [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi), [https://git-scm.com/downloads](https://git-scm.com/downloads). You can also try to install these programs with your distro's package manager.
 1. Clone the repo: `git clone https://github.com/Blayung/my-plugin; cd my-plugin`
-2. Neither me nor canyon can distrubute the api jar, <details><summary>or at least I think so</summary> because they say `Due to legal issues from cb, we can not really set this as default or post builds here. You can download them Here. Or check our discord when jenkins fails to login and properly build.` in their repository</details>, so go to [https://github.com/canyonmodded/canyon](https://github.com/canyonmodded/canyon), and follow their `Building` section, except instead of getting the `Canyon-Server/target/canyon-server.jar`, you'll need to copy `canyon-api.jar` from `Canyon-API/target` into the `canyon-api` directory inside of my repo.
-4. Build the plugin with `./gradlew build`.
+2. Clone canyon's repo: `git clone --recursive https://github.com/canyonmodded/canyon; cd canyon`
+3. Build canyon: `./canyon p; mvn clean package`
+4. Copy canyon's api to my repo: `mkdir ../canyon-api; cp Canyon-API/target/canyon-api.jar ../canyon-api`
+5. Delete canyon's repo: `cd ..; rm -rf canyon`
+4. Build the plugin: `./gradlew build`
 5. The plugin jar should be in `./build/libs/MyPlugin.jar` :D

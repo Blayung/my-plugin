@@ -3,4 +3,4 @@ build/
 server/
 .idea/
 src.bak/
-canyon-api/canyon-api.jar
+canyon-api/
