@@ -17,7 +17,7 @@ The command's name is `blocklog`, and it uses the following aliases: `blocklogge
   
 When used without arguments, it will toggle the inspection status of the player who ran it, and if at least a single argument is provided, the player specified in the first argument will get he's inspection status toggled instead.  
   
-When the inspection status is turned on, you can left click blocks to check their history, or right click them to see the history of the block next to them (on the block face you clicked at). You won't be able to destroy or place blocks, and interact with e.g. doors or trapdoors.  
+When the inspection status is turned on, you can left-click blocks to check their history, or right-click them to see the history of the block next to them (on the block face you clicked at). You won't be able to destroy or place blocks, and interact with e.g. doors or trapdoors.  
   
 The block log history will be saved in `plugins/MyPlugin/block-log-book.txt` when the world saves.
 
