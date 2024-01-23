@@ -23,7 +23,7 @@ public class MyPlugin extends JavaPlugin {
     public static class OnPlayerJoinListener extends PlayerListener {
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
-            if (player.getName().equals("CONSOLE")) {
+            if (player.getName().toUpperCase().equals("CONSOLE")) {
                 player.kickPlayer("§cInvalid username!");
             } else if (MyPlugin.onJoinMessages.length > 0) {
                 player.sendMessage(MyPlugin.onJoinMessages[MyPlugin.random.nextInt(MyPlugin.onJoinMessages.length)].replace("%%", "\uf420").replace("%p", player.getDisplayName()).replace('\uf420', '\\'));
@@ -46,7 +46,7 @@ public class MyPlugin extends JavaPlugin {
     private String[] infoLines;
     private static String[] onJoinMessages;
     private static String[] btwMessages;
-    private int btwMessagesTaskId = -2;
+    private int btwMessagesTaskId = -1;
 
     private void reloadConfig() {
         File pluginFolder = new File("./plugins/MyPlugin");
@@ -87,7 +87,7 @@ public class MyPlugin extends JavaPlugin {
         long btwMessagesInterval = config.getInt("btwMessagesInterval", 0);
 
         BukkitScheduler scheduler = server.getScheduler();
-        if (btwMessagesTaskId != -2) {
+        if (btwMessagesTaskId != -1) {
             scheduler.cancelTask(btwMessagesTaskId);
         }
         if (!(btwMessages.length == 0 || btwMessagesInterval < 1)) {

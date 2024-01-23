@@ -142,22 +142,24 @@ public class BlockLogger extends BlockListener {
             sender.sendMessage("§cYou do not have the permission to do that!");
             return;
         }
-        String name = sender.getName();
-        if (name.equals("CONSOLE") && args.length == 0) {
+        String senderName = sender.getName();
+        if (senderName.equals("CONSOLE") && args.length == 0) {
             sender.sendMessage("Please specify a player to toggle he's inspecting status.");
             return;
         }
+        String name;
         if (args.length > 0) {
-            name = args[0];
+            name = args[0].toLowerCase();
+        } else {
+            name = senderName.toLowerCase();
         }
-        name = name.toLowerCase();
         if (inspectingPlayers.contains(name)) {
             inspectingPlayers.remove(name);
-            server.broadcast("[MyPlugin] " + name + " is no longer inspecting the block logs!", server.BROADCAST_CHANNEL_ADMINISTRATIVE);
-        } else {
-            inspectingPlayers.add(name);
-            server.broadcast("[MyPlugin] " + name + " is now inspecting the block logs!", server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+            server.broadcast("[MyPlugin] (" + senderName + ") " + name + " is no longer inspecting the block logs!", server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+            return;
         }
+        inspectingPlayers.add(name);
+        server.broadcast("[MyPlugin] (" + senderName + ") " + name + " is now inspecting the block logs!", server.BROADCAST_CHANNEL_ADMINISTRATIVE);
     }
 
     public static class OnPlayerInteractListener extends PlayerListener {
