@@ -22,8 +22,10 @@ import java.util.ArrayList;
 public class MyPlugin extends JavaPlugin {
     public static class OnPlayerJoinListener extends PlayerListener {
         public void onPlayerJoin(PlayerJoinEvent event) {
-            if (MyPlugin.onJoinMessages.length > 0) {
-                Player player = event.getPlayer();
+            Player player = event.getPlayer();
+            if (player.getName().equals("CONSOLE")) {
+                player.kickPlayer("§cInvalid username!");
+            } else if (MyPlugin.onJoinMessages.length > 0) {
                 player.sendMessage(MyPlugin.onJoinMessages[MyPlugin.random.nextInt(MyPlugin.onJoinMessages.length)].replace("%%", "\uf420").replace("%p", player.getDisplayName()).replace('\uf420', '\\'));
             }
         }

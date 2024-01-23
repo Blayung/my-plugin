@@ -7,6 +7,7 @@ A custom-written plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3
 - a configurable `/info`/`/rules` command.
 - configurable "hello" and "btw" messages.
 - `/myplugin-reload` for reloading the config while the server is running.
+- kick all players with dangerous usernames (with the `CONSOLE` username)
 
 ## Downloads are available under the [releases tab](https://github.com/Blayung/my-plugin/releases)!
 
