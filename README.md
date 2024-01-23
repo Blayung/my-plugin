@@ -1,9 +1,9 @@
 # My Plugin
-A custom-written plugin for [the craftbukkit fork of canyon for minecraft beta 1.7.3](https://github.com/canyonmodded/canyon), adding various useful utilities to the server.
+A custom-written plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3](https://github.com/canyonmodded/canyon), adding various useful utilities to the server.
 
 ## Features
 - a `/players` / `/list` command for non-op players.
-- a block logger (inspection available for op players under `/blocklog`) <- INCOMPLETE! Some block-altering actions like pistons, explosions, snow appearing in snowy biomes or mushrooms growing and stealing from chests are not handled yet!
+- a block logger (inspection available for op players under `/blocklog`) <- **INCOMPLETE! Some block-altering actions like pistons, explosions, snow appearing in snowy biomes or mushrooms growing and stealing from chests are not handled yet!**
 - a configurable `/info`/`/rules` command.
 - configurable "hello" and "btw" messages.
 - `/myplugin-reload` for reloading the config while the server is running.
