@@ -3,7 +3,7 @@
 ###############################
 
 ## INFO LINES
-infoLines: [] # An array of lines to be displayed on /info or /rules. Can be left empty.
+infoLines: [] # A list of lines to be displayed on /info or /rules. Can be left empty.
 
 ## ON JOIN MESSAGES
 # A list of messages to be sent to a player when he joins. The plugin will choose one message at random. All occurrences of '%p' will
