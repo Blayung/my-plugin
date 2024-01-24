@@ -1,6 +1,4 @@
 .gradle/
 build/
-server/
 .idea/
-src.bak/
 canyon-api/
