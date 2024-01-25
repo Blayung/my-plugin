@@ -147,7 +147,7 @@ public class BlockLogger {
             Location location = event.getContainerLocation();
             ItemStack itemStack = event.getItemStack();
             MaterialData itemMaterialData = itemStack.getData();
-            logBook.add(new LogBookEntry(event.isStolen() ? LogBookEntryType.STOLEN : LogBookEntryType.PUT, Instant.now().getEpochSecond(), event.getPlayer().getName(), location.getWorld().getName(), (int)location.getX(), (int)location.getY(), (int)location.getZ(), itemStack.getTypeId(), itemMaterialData == null ? 0 : itemMaterialData.getData(), itemStack.getAmount()));
+            logBook.add(new LogBookEntry(event.isStolen() ? LogBookEntryType.STOLEN : LogBookEntryType.PUT, Instant.now().getEpochSecond(), event.getPlayer().getName(), location.getWorld().getName(), (int) location.getX(), (int) location.getY(), (int) location.getZ(), itemStack.getTypeId(), itemMaterialData == null ? 0 : itemMaterialData.getData(), itemStack.getAmount()));
         }
     }
 
