@@ -3,7 +3,7 @@ A custom-written plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3
 
 ## Features
 - a `/players` / `/list` command for non-op players.
-- a block logger (inspection available for op players under `/blocklog`) <- **INCOMPLETE! Some block-altering actions like pistons, explosions, snow appearing in snowy biomes or mushrooms growing and stealing from chests are not handled yet!**
+- a block logger (inspection available for op players under `/blocklog`) <- **INCOMPLETE! Some block-altering actions like pistons, explosions, snow appearing in snowy biomes or mushrooms growing aren't handled yet!**
 - a configurable `/info`/`/rules` command.
 - configurable "hello" and "btw" messages.
 - `/myplugin-reload` for reloading the config while the server is running.
@@ -11,13 +11,17 @@ A custom-written plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3
 
 ## Downloads are available under the [releases tab](https://github.com/Blayung/my-plugin/releases)!
 
-## Complete documentation
+## Documentation
 ### The block logger
+It will log blocks being placed or destroyed and items being stolen from or put into containers.  
+  
 The command's name is `blocklog`, and it uses the following aliases: `blocklogger`, `inspect`.  
   
 When used without arguments, it will toggle the inspection status of the player who ran it, and if at least a single argument is provided, the player specified in the first argument will get he's inspection status toggled instead.  
   
-When the inspection status is turned on, you can left-click blocks to check their history, or right-click them to see the history of the block next to them (on the block face you clicked at). You won't be able to destroy or place blocks, and interact with e.g. doors or trapdoors.  
+When the inspection status is turned on, you can left-click blocks to check their history, or right-click them to see the history of the block next to them (on the block face you clicked at). You won't be able to destroy or place blocks, or interact with e.g. doors or trapdoors.  
+  
+When checking double-chests for items being stolen or put in, make sure that you check both blocks since the plugin will save the interactions at only one.  
   
 The block log history will be saved in `plugins/MyPlugin/block-log-book.txt` when the world saves.
 
