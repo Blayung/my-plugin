@@ -20,6 +20,7 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,9 +52,10 @@ public class BlockLogger {
         private final int z;
         private final int id;
         private final int metadata;
+        private final Material material;
         private final int amount;
 
-        LogBookEntry(LogBookEntryType type, long time, String username, String world, int x, int y, int z, int id, int metadata, int amount) {
+        LogBookEntry(LogBookEntryType type, long time, String username, String world, int x, int y, int z, int id, int metadata, int amount, Material material) {
             this.type = type;
             this.time = time;
             this.username = username;
@@ -64,6 +66,7 @@ public class BlockLogger {
             this.id = id;
             this.metadata = metadata;
             this.amount = amount;
+            this.material = material;
         }
     }
 
@@ -102,7 +105,7 @@ public class BlockLogger {
                     default:
                         entryType = LogBookEntryType.PUT;
                 }
-                logBook.add(new LogBookEntry(entryType, Long.parseLong(elements[1]), elements[2], elements[3], Integer.parseInt(elements[4]), Integer.parseInt(elements[5]), Integer.parseInt(elements[6]), Integer.parseUnsignedInt(elements[7]), Integer.parseUnsignedInt(elements[8]), Integer.parseInt(elements[9])));
+                logBook.add(new LogBookEntry(entryType, Long.parseLong(elements[1]), elements[2], elements[3], Integer.parseInt(elements[4]), Integer.parseInt(elements[5]), Integer.parseInt(elements[6]), Integer.parseUnsignedInt(elements[7]), Integer.parseUnsignedInt(elements[8]), Integer.parseInt(elements[9]), Material.getMaterial(elements[10])));
             }
 
             logBookReader.close();
@@ -130,7 +133,7 @@ public class BlockLogger {
                         default:
                             toWrite.append('3');
                     }
-                    toWrite.append(' ').append(entry.time).append(' ').append(entry.username).append(' ').append(entry.world).append(' ').append(entry.x).append(' ').append(entry.y).append(' ').append(entry.z).append(' ').append(entry.id).append(' ').append(entry.metadata).append(' ').append(entry.amount).append('\n');
+                    toWrite.append(' ').append(entry.time).append(' ').append(entry.username).append(' ').append(entry.world).append(' ').append(entry.x).append(' ').append(entry.y).append(' ').append(entry.z).append(' ').append(entry.id).append(' ').append(entry.metadata).append(' ').append(entry.material).append(' ').append(entry.amount).append('\n');
                 }
 
                 FileWriter logBookWriter = new FileWriter("./plugins/MyPlugin/block-log-book.txt");
@@ -147,7 +150,9 @@ public class BlockLogger {
             Location location = event.getContainerLocation();
             ItemStack itemStack = event.getItemStack();
             MaterialData itemMaterialData = itemStack.getData();
-            logBook.add(new LogBookEntry(event.isStolen() ? LogBookEntryType.STOLEN : LogBookEntryType.PUT, Instant.now().getEpochSecond(), event.getPlayer().getName(), location.getWorld().getName(), (int) location.getX(), (int) location.getY(), (int) location.getZ(), itemStack.getTypeId(), itemMaterialData == null ? 0 : itemMaterialData.getData(), itemStack.getAmount()));
+            Material itemType = itemMaterialData.getItemType();
+            LogBookEntryType logBookEntryType = event.isStolen() ? LogBookEntryType.STOLEN : LogBookEntryType.PUT;
+            logBook.add(new LogBookEntry(logBookEntryType, Instant.now().getEpochSecond(), event.getPlayer().getName(), location.getWorld().getName(), (int) location.getX(), (int) location.getY(), (int) location.getZ(), itemStack.getTypeId(), itemMaterialData == null ? 0 : itemMaterialData.getData(), itemStack.getAmount(), itemType));
         }
     }
 
@@ -156,27 +161,27 @@ public class BlockLogger {
 
         public void onBlockBreak(BlockBreakEvent event) {
             Block block = event.getBlock();
-            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1, block.getType()));
         }
 
         public void onBlockBurn(BlockBurnEvent event) {
             Block block = event.getBlock();
-            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#FIRE", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#FIRE", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1, block.getType()));
         }
 
         public void onBlockFade(BlockFadeEvent event) {
             Block block = event.getBlock();
-            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#MELTED", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#MELTED", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1, block.getType()));
         }
 
         public void onLeavesDecay(LeavesDecayEvent event) {
             Block block = event.getBlock();
-            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#LEAVES_DECAY", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#LEAVES_DECAY", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1, block.getType()));
         }
 
         public void onBlockPlace(BlockPlaceEvent event) {
             Block block = event.getBlock();
-            logBook.add(new LogBookEntry(LogBookEntryType.PLACED, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+            logBook.add(new LogBookEntry(LogBookEntryType.PLACED, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1, block.getType()));
         }
     }
 
@@ -234,7 +239,7 @@ public class BlockLogger {
                 event.setCancelled(true);
 
                 String worldName = block.getWorld().getName();
-
+                
                 ArrayList<String> toSend = new ArrayList<>(Collections.singleton("§2" + x + ' ' + y + ' ' + z + " (" + worldName + "):"));
 
                 boolean noneFound = true;
@@ -261,7 +266,10 @@ public class BlockLogger {
                         if (entry.amount != -1) {
                             line.append(entry.amount).append(' ');
                         }
-                        line.append(entry.id).append(':').append(entry.metadata).append(" §2at §a").append(dateTimeFormatter.format(Instant.ofEpochSecond(entry.time)));
+
+
+
+                        line.append(entry.id).append(':').append(entry.metadata).append(" (").append(entry.material).append(")").append(" §2at §a").append(dateTimeFormatter.format(Instant.ofEpochSecond(entry.time)));
 
                         toSend.add(line.toString());
                     }
