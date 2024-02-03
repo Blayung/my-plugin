@@ -102,7 +102,13 @@ public class MyPlugin extends JavaPlugin {
 
         reloadConfig();
 
+        BlockLogger.loadBook();
+
         PluginManager pluginManager = server.getPluginManager();
+
+        pluginManager.registerEvent(Event.Type.WORLD_SAVE, new BlockLogger.OnWorldSaveListener(), Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.PLAYER_INTERACT, new BlockLogger.OnPlayerInteractListener(), Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.INVENTORY_TRANSACTION, new BlockLogger.TransactionListener(), Event.Priority.Normal, this);
 
         BlockLogger.BlockEventListener blockEventListener = new BlockLogger.BlockEventListener();
         pluginManager.registerEvent(Event.Type.BLOCK_BREAK, blockEventListener, Event.Priority.Normal, this);
@@ -110,10 +116,6 @@ public class MyPlugin extends JavaPlugin {
         pluginManager.registerEvent(Event.Type.BLOCK_FADE, blockEventListener, Event.Priority.Normal, this);
         pluginManager.registerEvent(Event.Type.LEAVES_DECAY, blockEventListener, Event.Priority.Normal, this);
         pluginManager.registerEvent(Event.Type.BLOCK_PLACE, blockEventListener, Event.Priority.Normal, this);
-
-        pluginManager.registerEvent(Event.Type.INVENTORY_TRANSACTION, new BlockLogger.TransactionListener(), Event.Priority.Normal, this);
-        pluginManager.registerEvent(Event.Type.PLAYER_INTERACT, new BlockLogger.OnPlayerInteractListener(), Event.Priority.Normal, this);
-        pluginManager.registerEvent(Event.Type.WORLD_SAVE, new BlockLogger.OnWorldSaveListener(), Event.Priority.Normal, this);
 
         pluginManager.registerEvent(Event.Type.PLAYER_JOIN, new OnPlayerJoinListener(), Event.Priority.Normal, this);
     }

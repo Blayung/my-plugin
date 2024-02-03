@@ -72,10 +72,10 @@ public class BlockLogger {
     private static final HashSet<String> inspectingPlayers = new HashSet<>();
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("kk:mm:ss dd/MM/yy").withZone(ZoneId.systemDefault());
 
-    BlockLogger() {
+    public static void loadBook() {
         try {
             File logBookFile = new File("./plugins/MyPlugin/block-log-book.txt");
-            if (logBookFile.createNewFile()) {
+            if (!logBookFile.exists()) {
                 FileWriter logBookWriter = new FileWriter(logBookFile);
                 logBookWriter.write("# MyPlugin block log book file; NOT INTENDED FOR MANUAL EDITING!\n");
                 logBookWriter.close();
