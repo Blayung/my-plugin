@@ -20,6 +20,7 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -261,7 +262,7 @@ public class BlockLogger {
                         if (entry.amount != -1) {
                             line.append(entry.amount).append(' ');
                         }
-                        line.append(entry.id).append(':').append(entry.metadata).append(" §2at §a").append(dateTimeFormatter.format(Instant.ofEpochSecond(entry.time)));
+                        line.append(entry.id).append(':').append(entry.metadata).append(" (").append(Material.getMaterial(entry.id)).append(") §2at §a").append(dateTimeFormatter.format(Instant.ofEpochSecond(entry.time)));
 
                         toSend.add(line.toString());
                     }
