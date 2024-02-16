@@ -20,6 +20,14 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class MyPlugin extends JavaPlugin {
+    private static Server server;
+    private static final Random random = new Random();
+
+    private String[] infoLines;
+    private static String[] onJoinMessages;
+    private static String[] btwMessages;
+    private int btwMessagesTaskId = -1;
+
     public static class OnPlayerJoinListener extends PlayerListener {
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
@@ -39,14 +47,6 @@ public class MyPlugin extends JavaPlugin {
             }
         }
     }
-
-    private static Server server;
-    private static final Random random = new Random();
-
-    private String[] infoLines;
-    private static String[] onJoinMessages;
-    private static String[] btwMessages;
-    private int btwMessagesTaskId = -1;
 
     private void reloadConfig() {
         File pluginFolder = new File("./plugins/MyPlugin");
@@ -102,18 +102,20 @@ public class MyPlugin extends JavaPlugin {
 
         reloadConfig();
 
-        BlockLogger blockLogger = new BlockLogger();
+        BlockLogger.loadBook();
 
         PluginManager pluginManager = server.getPluginManager();
 
-        pluginManager.registerEvent(Event.Type.BLOCK_BREAK, blockLogger, Event.Priority.Normal, this);
-        pluginManager.registerEvent(Event.Type.BLOCK_BURN, blockLogger, Event.Priority.Normal, this);
-        pluginManager.registerEvent(Event.Type.BLOCK_FADE, blockLogger, Event.Priority.Normal, this);
-        pluginManager.registerEvent(Event.Type.LEAVES_DECAY, blockLogger, Event.Priority.Normal, this);
-        pluginManager.registerEvent(Event.Type.BLOCK_PLACE, blockLogger, Event.Priority.Normal, this);
-
-        pluginManager.registerEvent(Event.Type.PLAYER_INTERACT, new BlockLogger.OnPlayerInteractListener(), Event.Priority.Normal, this);
         pluginManager.registerEvent(Event.Type.WORLD_SAVE, new BlockLogger.OnWorldSaveListener(), Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.PLAYER_INTERACT, new BlockLogger.OnPlayerInteractListener(), Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.INVENTORY_TRANSACTION, new BlockLogger.TransactionListener(), Event.Priority.Normal, this);
+
+        BlockLogger.BlockEventListener blockEventListener = new BlockLogger.BlockEventListener();
+        pluginManager.registerEvent(Event.Type.BLOCK_BREAK, blockEventListener, Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.BLOCK_BURN, blockEventListener, Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.BLOCK_FADE, blockEventListener, Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.LEAVES_DECAY, blockEventListener, Event.Priority.Normal, this);
+        pluginManager.registerEvent(Event.Type.BLOCK_PLACE, blockEventListener, Event.Priority.Normal, this);
 
         pluginManager.registerEvent(Event.Type.PLAYER_JOIN, new OnPlayerJoinListener(), Event.Priority.Normal, this);
     }

@@ -1,6 +1,9 @@
 package com.blay.myplugin;
 
+import org.bukkit.Location;
 import org.bukkit.event.block.BlockListener;
+import org.bukkit.event.inventory.InventoryListener;
+import org.bukkit.event.inventory.TransactionEvent;
 import org.bukkit.event.world.WorldListener;
 import org.bukkit.event.world.WorldSaveEvent;
 import org.bukkit.command.CommandSender;
@@ -15,6 +18,9 @@ import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
+import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,7 +34,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.time.Instant;
 
-public class BlockLogger extends BlockListener {
+public class BlockLogger {
     private enum LogBookEntryType {
         BROKEN,
         PLACED,
@@ -66,10 +72,10 @@ public class BlockLogger extends BlockListener {
     private static final HashSet<String> inspectingPlayers = new HashSet<>();
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("kk:mm:ss dd/MM/yy").withZone(ZoneId.systemDefault());
 
-    BlockLogger() {
+    public static void loadBook() {
         try {
             File logBookFile = new File("./plugins/MyPlugin/block-log-book.txt");
-            if (logBookFile.createNewFile()) {
+            if (!logBookFile.exists()) {
                 FileWriter logBookWriter = new FileWriter(logBookFile);
                 logBookWriter.write("# MyPlugin block log book file; NOT INTENDED FOR MANUAL EDITING!\n");
                 logBookWriter.close();
@@ -134,6 +140,44 @@ public class BlockLogger extends BlockListener {
             } catch (IOException e) {
                 throw new RuntimeException("Failed to save the MyPlugin block log book: " + e);
             }
+        }
+    }
+
+    public static class TransactionListener extends InventoryListener {
+        public void onTransaction(TransactionEvent event) {
+            Location location = event.getContainerLocation();
+            ItemStack itemStack = event.getItemStack();
+            MaterialData itemMaterialData = itemStack.getData();
+            logBook.add(new LogBookEntry(event.isStolen() ? LogBookEntryType.STOLEN : LogBookEntryType.PUT, Instant.now().getEpochSecond(), event.getPlayer().getName(), location.getWorld().getName(), (int) location.getX(), (int) location.getY(), (int) location.getZ(), itemStack.getTypeId(), itemMaterialData == null ? 0 : itemMaterialData.getData(), itemStack.getAmount()));
+        }
+    }
+
+    public static class BlockEventListener extends BlockListener {
+        // TODO: Handle the rest of block events
+
+        public void onBlockBreak(BlockBreakEvent event) {
+            Block block = event.getBlock();
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+        }
+
+        public void onBlockBurn(BlockBurnEvent event) {
+            Block block = event.getBlock();
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#FIRE", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+        }
+
+        public void onBlockFade(BlockFadeEvent event) {
+            Block block = event.getBlock();
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#MELTED", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+        }
+
+        public void onLeavesDecay(LeavesDecayEvent event) {
+            Block block = event.getBlock();
+            logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#LEAVES_DECAY", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
+        }
+
+        public void onBlockPlace(BlockPlaceEvent event) {
+            Block block = event.getBlock();
+            logBook.add(new LogBookEntry(LogBookEntryType.PLACED, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
         }
     }
 
@@ -218,7 +262,7 @@ public class BlockLogger extends BlockListener {
                         if (entry.amount != -1) {
                             line.append(entry.amount).append(' ');
                         }
-                        line.append(entry.id).append(':').append(entry.metadata).append(" §2at §a").append(dateTimeFormatter.format(Instant.ofEpochSecond(entry.time)));
+                        line.append(entry.id).append(':').append(entry.metadata).append(" (").append(Material.getMaterial(entry.id)).append(") §2at §a").append(dateTimeFormatter.format(Instant.ofEpochSecond(entry.time)));
 
                         toSend.add(line.toString());
                     }
@@ -234,32 +278,5 @@ public class BlockLogger extends BlockListener {
                 player.sendRawMessage("");
             }
         }
-    }
-    
-    // TODO: Handle the rest of the block events + all the item events
-
-    public void onBlockBreak(BlockBreakEvent event) {
-        Block block = event.getBlock();
-        logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
-    }
-
-    public void onBlockBurn(BlockBurnEvent event) {
-        Block block = event.getBlock();
-        logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#FIRE", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
-    }
-
-    public void onBlockFade(BlockFadeEvent event) {
-        Block block = event.getBlock();
-        logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#MELTED", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
-    }
-
-    public void onLeavesDecay(LeavesDecayEvent event) {
-        Block block = event.getBlock();
-        logBook.add(new LogBookEntry(LogBookEntryType.BROKEN, Instant.now().getEpochSecond(), "#LEAVES_DECAY", block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
-    }
-
-    public void onBlockPlace(BlockPlaceEvent event) {
-        Block block = event.getBlock();
-        logBook.add(new LogBookEntry(LogBookEntryType.PLACED, Instant.now().getEpochSecond(), event.getPlayer().getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ(), block.getTypeId(), block.getData(), -1));
     }
 }
