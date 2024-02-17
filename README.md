@@ -40,8 +40,8 @@ Intuitive concepts, already well-documented within the `plugins/MyPlugin/config.
 1. Clone the repo: `git clone https://github.com/Blayung/my-plugin; cd my-plugin`
 2. Clone canyon's repo: `git clone --recursive https://github.com/canyonmodded/canyon; cd canyon`
 3. Revert canyon to its previous, working state: `git reset --hard 641e14c136783f2b238cf6bfb21421f54f32753f`
-4. Build canyon: `./canyon p; mvn clean package; cd ..`
-5. Copy canyon's api to my repo: `mkdir canyon-api; cp canyon/Canyon-API/target/canyon-api.jar canyon-api`
+4. Build canyon: `./canyon p; mvn clean package`
+5. Copy canyon's api to my repo: `cd ..; mkdir canyon-api; cp canyon/Canyon-API/target/canyon-api.jar canyon-api`
 6. Delete canyon's repo: `rm -rf canyon`
 4. Build the plugin: `./gradlew build`
 5. The plugin jar should be in `./build/libs/MyPlugin.jar` :D
