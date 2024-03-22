@@ -8,8 +8,7 @@ A custom-written plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3
 - configurable "hello" and "btw" messages.
 - `/myplugin-reload` for reloading the config while the server is running.
 
-## WARNING 1: The changes in canyon's code required for this plugin to run correctly were recently reversed due to non-critical problems with them, so you'll need to recompile canyon at [641e14c](https://github.com/canyonmodded/canyon/commit/641e14c136783f2b238cf6bfb21421f54f32753f) in order to use this plugin (it doesn't create any problems with other plugins).
-## WARNING 2: Remember to never use `/reload` with this plugin, since it is known to create dangerous problems.
+## WARNING: Remember to never use `/reload` with this plugin, since it is known to create dangerous problems.
 ## Downloads are available under the [releases tab](https://github.com/Blayung/my-plugin/releases)!
 
 ## Documentation
@@ -39,7 +38,6 @@ Intuitive concepts, already well-documented within the `plugins/MyPlugin/config.
 0. Make sure you have jdk 8, maven and git installed. If not, check these links out: [https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/downloads/#java8), [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi), [https://git-scm.com/downloads](https://git-scm.com/downloads). You can also try to install these programs with your distro's package manager.
 1. Clone the repo: `git clone https://github.com/Blayung/my-plugin; cd my-plugin`
 2. Clone canyon's repo: `git clone --recursive https://github.com/canyonmodded/canyon; cd canyon`
-3. Revert canyon to its previous, working state: `git reset --hard 641e14c136783f2b238cf6bfb21421f54f32753f`
 4. Build canyon: `./canyon p; mvn clean package`
 5. Copy canyon's api to my repo: `cd ..; mkdir canyon-api; cp canyon/Canyon-API/target/canyon-api.jar canyon-api`
 6. Delete canyon's repo: `rm -rf canyon`
