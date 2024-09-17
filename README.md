@@ -35,11 +35,11 @@ You can safely use `/myplugin-reload` or `/reload-myplugin` to reload the config
 Intuitive concepts, already well-documented within the `plugins/MyPlugin/config.yml` file.
 
 ## Building the plugin (assuming you're on linux, you can just copy and paste the commands if you've already done point 0)
-0. Make sure you have jdk 8, maven and git installed. If not, check these links out: [https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/downloads/#java8), [https://maven.apache.org/download.cgi](https://maven.apache.org/download.cgi), [https://git-scm.com/downloads](https://git-scm.com/downloads). You can also try to install these programs with your distro's package manager.
+0. Make sure you have jdk 8 and git installed. If not, check these links out: [https://www.oracle.com/java/technologies/downloads](https://www.oracle.com/java/technologies/downloads/#java8), [https://git-scm.com/downloads](https://git-scm.com/downloads). You can also try to install these programs with your distro's package manager.
 1. Clone the repo: `git clone https://github.com/Blayung/my-plugin; cd my-plugin`
 2. Clone canyon's repo: `git clone --recursive https://github.com/canyonmodded/canyon; cd canyon`
 4. Build canyon: `./canyon p; mvn clean package`
 5. Copy canyon's api to my repo: `cd ..; mkdir canyon-api; cp canyon/Canyon-API/target/canyon-api.jar canyon-api`
 6. Delete canyon's repo: `rm -rf canyon`
 4. Build the plugin: `./gradlew build`
-5. The plugin jar should be in `./build/libs/MyPlugin.jar` :D
+5. Now the plugin jar file should be in the `./build/libs` folder :D
