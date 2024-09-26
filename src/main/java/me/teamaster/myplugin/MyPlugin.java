@@ -1,4 +1,4 @@
-package com.blay.myplugin;
+package me.teamaster.myplugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Server;
@@ -28,27 +28,29 @@ public class MyPlugin extends JavaPlugin {
     private static String[] btwMessages;
     private int btwMessagesTaskId = -1;
 
-    public static class OnPlayerJoinListener extends PlayerListener {
+    private static class OnPlayerJoinListener extends PlayerListener {
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
             if (player.getName().equalsIgnoreCase("CONSOLE")) {
                 player.kickPlayer("§cInvalid username!");
-            } else if (MyPlugin.onJoinMessages.length > 0) {
-                player.sendMessage(MyPlugin.onJoinMessages[MyPlugin.random.nextInt(MyPlugin.onJoinMessages.length)].replace("%%", "\uf420").replace("%p", player.getDisplayName()).replace('\uf420', '\\'));
+                return;
+            }
+            if (onJoinMessages.length > 0) {
+                player.sendMessage(onJoinMessages[random.nextInt(onJoinMessages.length)].replace("%%", "\uf420").replace("%p", player.getDisplayName()).replace('\uf420', '\\'));
             }
         }
     }
 
-    public static class BtwMessagesTask implements Runnable {
+    private static class BtwMessagesTask implements Runnable {
         public void run() {
-            String message = MyPlugin.btwMessages[MyPlugin.random.nextInt(MyPlugin.btwMessages.length)];
-            for (Player player : MyPlugin.server.getOnlinePlayers()) {
+            String message = btwMessages[random.nextInt(btwMessages.length)];
+            for (Player player : server.getOnlinePlayers()) {
                 player.sendMessage(message);
             }
         }
     }
 
-    private void reloadConfig() {
+    private void loadConfig(boolean isOnStartup) {
         File pluginFolder = new File("./plugins/MyPlugin");
         if (!pluginFolder.exists()) {
             pluginFolder.mkdirs();
@@ -83,6 +85,10 @@ public class MyPlugin extends JavaPlugin {
         infoLines = config.getStringList("infoLines", new ArrayList<>()).toArray(new String[0]);
         onJoinMessages = config.getStringList("onJoinMessages", new ArrayList<>()).toArray(new String[0]);
 
+        if (isOnStartup) {
+            BlockLogger.storeInMemory = config.getBoolean("storeInMemory", false);
+        }
+
         String[] btwMessages = config.getStringList("btwMessages", new ArrayList<>()).toArray(new String[0]);
         long btwMessagesInterval = config.getInt("btwMessagesInterval", 0);
 
@@ -100,9 +106,11 @@ public class MyPlugin extends JavaPlugin {
         server = getServer();
         server.getLogger().info("[MyPlugin] Siema!");
 
-        reloadConfig();
+        loadConfig(true);
 
-        BlockLogger.loadBook();
+        if (BlockLogger.storeInMemory) {
+            BlockLogger.loadBook();
+        }
 
         PluginManager pluginManager = server.getPluginManager();
 
@@ -156,9 +164,9 @@ public class MyPlugin extends JavaPlugin {
             case "myplugin-reload":
             case "reload-myplugin":
                 if (sender.isOp()) {
-                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloading plugin config...", server.BROADCAST_CHANNEL_ADMINISTRATIVE);
-                    reloadConfig();
-                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloaded plugin config successfully!", server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                    loadConfig(false);
+                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
                 } else {
                     sender.sendMessage("§cYou do not have the permission to do that!");
                 }

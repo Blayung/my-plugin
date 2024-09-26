@@ -2,14 +2,21 @@
 # MyPlugin configuration file #
 ###############################
 
-## INFO LINES
+## INFO COMMAND
 infoLines: [] # A list of lines to be displayed on /info or /rules. Can be left empty.
 
 ## ON JOIN MESSAGES
-# A list of messages to be sent to a player when he joins. The plugin will choose one message at random. All occurrences of '%p' will
-# be replaced with the player nick, and if you want to write '%p' literally, you can use '%%p' instead. Can be left empty.
+# A list of messages to be sent to a player when they join. The plugin will choose one message at random. All occurrences of '%p' will
+# be replaced with the player's nick, and if you want to write '%p' literally, you can use '%%p' instead. Can be left empty.
 onJoinMessages: []
 
 ## BTW MESSAGES
 btwMessages: [] # A list of messages to be broadcast to every player online periodically. The plugin will choose one message at random. Can be left empty to disable.
-btwMessagesInterval: 0 # How often should we send the btw messages? In game ticks (20 ticks = 1 second). Can be set to a value below one to disable.
+btwMessagesInterval: 6000 # How often should we send the btw messages? In game ticks (20 ticks = 1 second). Can be set to a value below one to disable.
+
+## THE BLOCK LOGGER
+# Has two modes:
+# true  -> Changes stored in memory untile the world is saved (less resource intensive, but can create problems after a server crash)
+# false -> Changes are instantly written to disk (more resource intensive, but tolerant for server crashes)
+# REQUIRES SERVER RESTART!
+storeInMemory: false

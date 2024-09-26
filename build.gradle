@@ -12,7 +12,9 @@ dependencies {
     compileOnly "com.canyonmodded:canyon-api:1.7.3"
 }
 
-archivesBaseName = "MyPlugin"
+def pluginVersion = "1.2.0"
+
+base.archivesName = "my-plugin-" + pluginVersion
 
 def javaVersion = JavaVersion.VERSION_1_8
 
@@ -22,3 +24,9 @@ java {
 }
 
 jar.from("LICENSE.txt")
+
+processResources {
+    filesMatching("plugin.yml") {
+        expand "version": pluginVersion
+    }
+}
