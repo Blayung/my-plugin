@@ -1,7 +1,7 @@
 # My Plugin
 A custom plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3](https://github.com/canyonmodded/canyon), adding various useful utilities to the server.
 
-## [CANYON THE BUKKIT FORK FOR BETA 1.7.3 ON GITHUB!](https://github.com/canyonmodded/canyon)
+### [CANYON THE BUKKIT FORK FOR BETA 1.7.3 ON GITHUB!](https://github.com/canyonmodded/canyon)
 
 ## Features
 - a `/players` / `/list` command for non-op players.
