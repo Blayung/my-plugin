@@ -274,6 +274,7 @@ public class BlockLogger {
                         }
                     }
                 } else {
+                    // TODO: Right here, we have a not-so-efficient method of doing things when storeInMemory is false. We first read the entries from disk and turn them into List<LogBookEntry>, and then we turn them back into an only slightly differently formatted string. (it's at least simple, probably never gonna fix it lol)
                     try {
                         BufferedReader logBookReader = new BufferedReader(new FileReader(logBookPath));
                         for (String line : logBookReader.lines().toArray(String[]::new)) {
