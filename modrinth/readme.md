@@ -1,16 +1,15 @@
 # My Plugin
 A custom plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3](https://github.com/canyonmodded/canyon), adding various useful utilities to the server.
 
-### [CANYON THE BUKKIT FORK FOR BETA 1.7.3 ON GITHUB!](https://github.com/canyonmodded/canyon)
-
 ## Features
 - a `/players` / `/list` command for non-op players.
-- a **block logger!** (also handles stealing items from chests) - inspection available for op players under `/blocklog` <- INCOMPLETE! Some block-altering actions like pistons or explosions aren't handled yet!
+- a **block logger!** (also handles stealing items from chests) - inspection available for op players under `/blocklog` **<- INCOMPLETE! Some block-altering actions like pistons or explosions aren't handled yet!**
 - a configurable `/info` / `/rules` command.
 - configurable "hello" and "btw" messages.
 - `/myplugin-reload` for reloading the config while the server is running.
 
-## WARNING: Remember to never use `/reload` with this plugin, since it is known to create dangerous problems.
+### [CANYON THE BUKKIT FORK FOR BETA 1.7.3 ON GITHUB!](https://github.com/canyonmodded/canyon)
+### WARNING: Remember to never use `/reload` with this plugin, since it is known to create dangerous problems.
 
 ## Documentation
 ### The configuration file
