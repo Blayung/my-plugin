@@ -51,7 +51,7 @@ public class MyPlugin extends JavaPlugin {
     }
 
     private void loadConfig(boolean isOnStartup) {
-        File pluginFolder = new File("./plugins/MyPlugin");
+        File pluginFolder = new File("./plugins/my-plugin");
         if (!pluginFolder.exists()) {
             pluginFolder.mkdirs();
         }
@@ -67,7 +67,7 @@ public class MyPlugin extends JavaPlugin {
                 }
                 defaultConfigReader.close();
             } catch (IOException e) {
-                throw new RuntimeException("Failed to read the default config for MyPlugin: " + e);
+                throw new RuntimeException("Failed to read the default config for My Plugin: " + e);
             }
 
             try {
@@ -75,7 +75,7 @@ public class MyPlugin extends JavaPlugin {
                 configFileWriter.write(defaultConfig.toString());
                 configFileWriter.close();
             } catch (IOException e) {
-                throw new RuntimeException("Failed to write the default config for MyPlugin: " + e);
+                throw new RuntimeException("Failed to write the default config for My Plugin: " + e);
             }
         }
 
@@ -104,7 +104,7 @@ public class MyPlugin extends JavaPlugin {
 
     public void onEnable() {
         server = getServer();
-        server.getLogger().info("[MyPlugin] Siema!");
+        server.getLogger().info("[My Plugin] Siema!");
 
         loadConfig(true);
 
@@ -164,9 +164,9 @@ public class MyPlugin extends JavaPlugin {
             case "myplugin-reload":
             case "reload-myplugin":
                 if (sender.isOp()) {
-                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                    server.broadcast("[My Plugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
                     loadConfig(false);
-                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                    server.broadcast("[My Plugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
                 } else {
                     sender.sendMessage("§cYou do not have the permission to do that!");
                 }

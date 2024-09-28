@@ -1,4 +1,4 @@
-name: MyPlugin
+name: My Plugin
 version: ${version}
 description: Doing various things on the server.
 author: Wojciech Paruch <teamaster69@proton.me>
