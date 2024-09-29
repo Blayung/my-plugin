@@ -13,7 +13,7 @@ A custom plugin for [canyon, a craftbukkit fork for minecraft beta 1.7.3](https:
 
 ## Documentation
 ### The configuration file
-It's stored in `plugins/MyPlugin/config.yml`.
+It's stored in `plugins/my-plugin/config.yml`.
 
 ### The block logger
 It will log blocks being placed or destroyed and items being taken from or put into containers.  
@@ -26,7 +26,7 @@ When the inspection status is enabled, you can left-click blocks to check their 
   
 When checking double-chests for items being taken or put in, make sure that you check both blocks since the plugin will save the interactions at only one.  
   
-The block log history will be saved in `plugins/MyPlugin/block-log-book.txt`.  
+The block log history will be saved in `plugins/my-plugin/block-log-book.txt`.  
   
 You should also check out the `storeInMemory` option in the config.
 

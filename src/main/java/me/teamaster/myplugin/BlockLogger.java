@@ -36,12 +36,12 @@ import java.util.Collections;
 import java.time.Instant;
 
 public class BlockLogger {
-    private static final String logBookPath = "./plugins/my-plugin/block-log-book.txt";
-    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("kk:mm:ss dd/MM/yy").withZone(ZoneId.systemDefault());
-
     static boolean storeInMemory;
 
-    private static final HashSet<String> inspectingPlayers = new HashSet<>();
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("kk:mm:ss dd/MM/yy").withZone(ZoneId.systemDefault());
+
+    private static final String logBookPath = MyPlugin.pluginDir + "/block-log-book.txt";
+    private static final String logBookHeader = "# MyPlugin block log book file; NOT INTENDED FOR MANUAL EDITING!\n";
 
     private enum LogBookEntryType {
         BROKEN,
@@ -115,18 +115,31 @@ public class BlockLogger {
                 default:
                     entryAsString.append('3');
             }
-            return entryAsString.append(' ').append(this.time).append(' ').append(this.username).append(' ').append(this.world).append(' ').append(this.x).append(' ').append(this.y).append(' ').append(this.z).append(' ').append(this.id).append(' ').append(this.metadata).append(' ').append(this.amount).append('\n').toString();
+            return entryAsString
+                .append(' ')
+                .append(this.time).append(' ')
+                .append(this.username).append(' ')
+                .append(this.world).append(' ')
+                .append(this.x).append(' ')
+                .append(this.y).append(' ')
+                .append(this.z).append(' ')
+                .append(this.id).append(' ')
+                .append(this.metadata).append(' ')
+                .append(this.amount).append('\n')
+                .toString();
         }
     }
 
     private static final ArrayList<LogBookEntry> logBook = new ArrayList<>();
+
+    private static final HashSet<String> inspectingPlayers = new HashSet<>();
 
     static void loadBook() {
         try {
             File logBookFile = new File(logBookPath);
             if (!logBookFile.exists()) {
                 FileWriter logBookWriter = new FileWriter(logBookFile);
-                logBookWriter.write("# My Plugin block log book file; NOT INTENDED FOR MANUAL EDITING!\n");
+                logBookWriter.write(logBookHeader);
                 logBookWriter.close();
                 return;
             }
@@ -142,7 +155,7 @@ public class BlockLogger {
 
             logBookReader.close();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load the My Plugin block log book: " + e);
+            throw new RuntimeException("Failed to load the MyPlugin block log book: " + e);
         }
     }
 
@@ -150,7 +163,7 @@ public class BlockLogger {
         public void onWorldSave(WorldSaveEvent event) {
             if (storeInMemory) {
                 try {
-                    StringBuilder toWrite = new StringBuilder("# My Plugin block log book file; NOT INTENDED FOR MANUAL EDITING!\n");
+                    StringBuilder toWrite = new StringBuilder(logBookHeader);
                     for (LogBookEntry entry : logBook) {
                         toWrite.append(entry.toString());
                     }
@@ -158,7 +171,7 @@ public class BlockLogger {
                     logBookWriter.write(toWrite.toString());
                     logBookWriter.close();
                 } catch (IOException e) {
-                    throw new RuntimeException("Failed to save the My Plugin block log book: " + e);
+                    throw new RuntimeException("Failed to save the MyPlugin block log book: " + e);
                 }
             }
         }
@@ -170,11 +183,12 @@ public class BlockLogger {
             return;
         }
         try {
+            // TODO: We should probably have that writer open constantly instead of being opened and closed every interaction.
             FileWriter logBookWriter = new FileWriter(logBookPath, true);
             logBookWriter.write(entry.toString());
             logBookWriter.close();
         } catch (IOException e) {
-            throw new RuntimeException("Failed to add an entry to the My Plugin block log book: " + e);
+            throw new RuntimeException("Failed to add an entry to the MyPlugin block log book: " + e);
         }
     }
 
@@ -229,11 +243,11 @@ public class BlockLogger {
         String name = args.length > 0 ? args[0].toLowerCase() : senderName.toLowerCase();
         if (inspectingPlayers.contains(name)) {
             inspectingPlayers.remove(name);
-            server.broadcast("[My Plugin] (" + senderName + ") " + name + " is no longer inspecting the block logs!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+            server.broadcast("[MyPlugin] (" + senderName + ") " + name + " is no longer inspecting the block logs!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
             return;
         }
         inspectingPlayers.add(name);
-        server.broadcast("[My Plugin] (" + senderName + ") " + name + " is now inspecting the block logs!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+        server.broadcast("[MyPlugin] (" + senderName + ") " + name + " is now inspecting the block logs!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
     }
 
     static class OnPlayerInteractListener extends PlayerListener {

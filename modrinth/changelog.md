@@ -1,1 +1,2 @@
-- Plugin name corrections.
+- A little code optimization.
+- Plugin name corrections, including fixing incorrect readme information.

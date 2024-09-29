@@ -13,7 +13,7 @@ dependencies {
     compileOnly "com.canyonmodded:canyon-api:1.7.3"
 }
 
-def pluginVersion = "1.2.1"
+def pluginVersion = "1.2.2"
 
 base.archivesName = "my-plugin-" + pluginVersion
 

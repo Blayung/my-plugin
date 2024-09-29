@@ -28,6 +28,8 @@ public class MyPlugin extends JavaPlugin {
     private static String[] btwMessages;
     private int btwMessagesTaskId = -1;
 
+    static final String pluginDir = "./plugins/my-plugin";
+
     private static class OnPlayerJoinListener extends PlayerListener {
         public void onPlayerJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
@@ -51,7 +53,7 @@ public class MyPlugin extends JavaPlugin {
     }
 
     private void loadConfig(boolean isOnStartup) {
-        File pluginFolder = new File("./plugins/my-plugin");
+        File pluginFolder = new File(pluginDir);
         if (!pluginFolder.exists()) {
             pluginFolder.mkdirs();
         }
@@ -63,11 +65,11 @@ public class MyPlugin extends JavaPlugin {
             try {
                 InputStreamReader defaultConfigReader = new InputStreamReader(getClass().getResourceAsStream("/config.yml"));
                 for (int character = defaultConfigReader.read(); character != -1; character = defaultConfigReader.read()) {
-                    defaultConfig.append((char)character);
+                    defaultConfig.append((char) character);
                 }
                 defaultConfigReader.close();
             } catch (IOException e) {
-                throw new RuntimeException("Failed to read the default config for My Plugin: " + e);
+                throw new RuntimeException("Failed to read the default config for MyPlugin: " + e);
             }
 
             try {
@@ -75,7 +77,7 @@ public class MyPlugin extends JavaPlugin {
                 configFileWriter.write(defaultConfig.toString());
                 configFileWriter.close();
             } catch (IOException e) {
-                throw new RuntimeException("Failed to write the default config for My Plugin: " + e);
+                throw new RuntimeException("Failed to write the default config for MyPlugin: " + e);
             }
         }
 
@@ -104,7 +106,7 @@ public class MyPlugin extends JavaPlugin {
 
     public void onEnable() {
         server = getServer();
-        server.getLogger().info("[My Plugin] Siema!");
+        server.getLogger().info("[MyPlugin] Siema!");
 
         loadConfig(true);
 
@@ -164,9 +166,9 @@ public class MyPlugin extends JavaPlugin {
             case "myplugin-reload":
             case "reload-myplugin":
                 if (sender.isOp()) {
-                    server.broadcast("[My Plugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
                     loadConfig(false);
-                    server.broadcast("[My Plugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
                 } else {
                     sender.sendMessage("§cYou do not have the permission to do that!");
                 }
