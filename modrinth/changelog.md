@@ -1,2 +1,1 @@
-- A little code optimization.
-- Plugin name corrections, including fixing incorrect readme information.
+- Added bukkit permission support.

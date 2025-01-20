@@ -231,10 +231,6 @@ public class BlockLogger {
     }
 
     static void handleCommand(CommandSender sender, String[] args, Server server) {
-        if (!sender.isOp()) {
-            sender.sendMessage("§cYou do not have the permission to do that!");
-            return;
-        }
         if (sender instanceof ConsoleCommandSender && args.length == 0) {
             sender.sendMessage("Please specify a player to toggle their inspecting status.");
             return;

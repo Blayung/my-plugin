@@ -16,7 +16,7 @@ btwMessagesInterval: 6000 # How often should we send the btw messages? In game t
 
 ## THE BLOCK LOGGER
 # Has two modes:
-# true  -> Changes stored in memory untile the world is saved (less resource intensive, but can create problems after a server crash)
+# true  -> Changes stored in memory until the world is saved (less resource intensive, but can create problems after a server crash)
 # false -> Changes are instantly written to disk (more resource intensive, but tolerant for server crashes)
 # REQUIRES SERVER RESTART!
 storeInMemory: false

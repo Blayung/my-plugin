@@ -165,13 +165,9 @@ public class MyPlugin extends JavaPlugin {
                 break;
             case "myplugin-reload":
             case "reload-myplugin":
-                if (sender.isOp()) {
-                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
-                    loadConfig(false);
-                    server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
-                } else {
-                    sender.sendMessage("§cYou do not have the permission to do that!");
-                }
+                server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloading plugin config...", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
+                loadConfig(false);
+                server.broadcast("[MyPlugin] (" + sender.getName() + ") Reloaded plugin config successfully!", Server.BROADCAST_CHANNEL_ADMINISTRATIVE);
                 break;
             default:
                 for (String line : infoLines) {

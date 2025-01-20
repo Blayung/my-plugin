@@ -4,16 +4,35 @@ description: Doing various things on the server.
 author: Wojciech Paruch <teamaster69@proton.me>
 
 main: me.teamaster.myplugin.MyPlugin
+
 commands:
     blocklog:
         aliases: [blocklogger, inspect]
+        permission: myplugin.blocklog.inspect
         description: Inspect the block logs.
     players:
         aliases: [list, kto]
+        permission: myplugin.playerlist
         description: Check who's currently online.
     myplugin-reload:
         aliases: reload-myplugin
+        permission: myplugin.reload
         description: Reload the configuration of MyPlugin.
     info:
         aliases: rules
+        permission: myplugin.info
         description: Get some information about the server.
+
+permissions:
+    myplugin.blocklog.inspect:
+        description: Allows to use the blocklog command.
+        default: op
+    myplugin.playerlist:
+        description: Allows to use the players command.
+        default: true
+    myplugin.reload:
+        description: Allows to use the myplugin-reload command.
+        default: op
+    myplugin.info:
+        description: Allows you to use the info command.
+        default: true
